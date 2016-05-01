@@ -1,21 +1,26 @@
--- :name create-user! :! :n
--- :doc creates a new user record
-INSERT INTO users
-(id, first_name, last_name, email, pass)
-VALUES (:id, :first_name, :last_name, :email, :pass)
+-- :name create-minion! :! :n
+-- :doc creates a new minion record
+INSERT INTO minions
+(name)
+VALUES (:name)
 
--- :name update-user! :! :n
--- :doc update an existing user record
-UPDATE users
-SET first_name = :first_name, last_name = :last_name, email = :email
+-- :name update-minion! :! :n
+-- :doc update an existing minion record
+UPDATE minions
+SET name = :name
 WHERE id = :id
 
--- :name get-user :? :1
--- :doc retrieve a user given the id.
-SELECT * FROM users
+-- :name get-minions :? :*
+-- :doc retrieve a list of all minions
+
+select * from minions
+
+-- :name get-minion :? :1
+-- :doc retrieve a minion given the id
+SELECT * FROM minions
 WHERE id = :id
 
--- :name delete-user! :! :n
--- :doc delete a user given the id
-DELETE FROM users
+-- :name delete-minion! :! :n
+-- :doc delete a minion given the id
+DELETE FROM minions
 WHERE id = :id

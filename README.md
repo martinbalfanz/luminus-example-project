@@ -10,7 +10,7 @@ step into a full featured web app.
 
 * [x] Setup
 * [x] Models
-* [ ] DB Access
+* [x] DB Access
 * [ ] Public API
 * [ ] Views / SPA
 * [ ] restrict minion creation to logged in users
