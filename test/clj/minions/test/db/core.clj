@@ -15,22 +15,25 @@
     (migrations/migrate ["migrate"] (env :database-url))
     (f)))
 
-(deftest test-users
+(deftest test-minions
   (jdbc/with-db-transaction [t-conn *db*]
     (jdbc/db-set-rollback-only! t-conn)
-    (is (= 1 (db/create-user!
-               t-conn
-               {:id         "1"
-                :first_name "Sam"
-                :last_name  "Smith"
-                :email      "sam.smith@example.com"
-                :pass       "pass"})))
-    (is (= {:id         "1"
-            :first_name "Sam"
-            :last_name  "Smith"
-            :email      "sam.smith@example.com"
-            :pass       "pass"
-            :admin      nil
-            :last_login nil
-            :is_active  nil}
-           (db/get-user t-conn {:id "1"})))))
+    (is (= 1 (db/create-minion!
+              t-conn
+              {:name "test"})))
+    (is (= {:id 1
+            :name "test"
+            :timestamp nil}
+           (db/get-minion t-conn {:id 1})))
+    (is (= 1 (db/update-minion!
+              t-conn
+              {:id 1
+               :name "updated"})))
+    (is (= {:id 1
+            :name "updated"
+            :timestamp nil}
+           (db/get-minion t-conn {:id 1})))
+    (is (= 1 (db/delete-minion!
+              t-conn
+              {:id 1})))
+    (is (nil? (db/get-minion t-conn {:id 1})))))
