@@ -1,43 +1,54 @@
 (ns minions.routes.services
   (:require [ring.util.http-response :refer :all]
             [compojure.api.sweet :refer :all]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [minions.db.core :as db]))
+
+(s/defschema Minion {:id Long
+                     :name String
+                     (s/optional-key :timestamp) (s/maybe String)})
 
 (defapi service-routes
   {:swagger {:ui "/swagger-ui"
              :spec "/swagger.json"
              :data {:info {:version "1.0.0"
-                           :title "Sample API"
-                           :description "Sample Services"}}}}
+                           :title "Minions API"
+                           :description "Organize that minions!"
+                           :contact {:name "Martin Balfanz"}}
+                    :tags [{:name "minions" :description "Minions API"}]}}}
   (context "/api" []
-    :tags ["thingie"]
+           (context "/minions" []
+                    :tags ["minions"]
 
-    (GET "/plus" []
-      :return       Long
-      :query-params [x :- Long, {y :- Long 1}]
-      :summary      "x+y with query-parameters. y defaults to 1."
-      (ok (+ x y)))
+                    (GET "/" []
+                         :return [Minion]
+                         :summary "Get all minions."
+                         (ok (db/get-minions)))
 
-    (POST "/minus" []
-      :return      Long
-      :body-params [x :- Long, y :- Long]
-      :summary     "x-y with body-parameters."
-      (ok (- x y)))
+                    (GET "/:id" []
+                         :path-params [id :- Long]
+                         :return Minion
+                         :summary "Get a minion."
+                         (if-let [m (db/get-minion {:id id})]
+                           (ok m)
+                           (not-found)))
 
-    (GET "/times/:x/:y" []
-      :return      Long
-      :path-params [x :- Long, y :- Long]
-      :summary     "x*y with path-parameters"
-      (ok (* x y)))
+                    (POST "/" []
+                          :query-params [name :- String]
+                          :return Long
+                          :summary "Create a minion."
+                          (ok (db/create-minion! {:name name})))
 
-    (POST "/divide" []
-      :return      Double
-      :form-params [x :- Long, y :- Long]
-      :summary     "x/y with form-parameters"
-      (ok (/ x y)))
+                    (PUT "/:id" []
+                         :path-params [id :- Long]
+                         :query-params [name :- String]
+                         :return Long
+                         :summary "Update a minion."
+                         (ok (db/update-minion! {:id id
+                                                 :name name})))
 
-    (GET "/power" []
-      :return      Long
-      :header-params [x :- Long, y :- Long]
-      :summary     "x^y with header-parameters"
-      (ok (long (Math/pow x y))))))
+                    (DELETE "/:id" []
+                            :path-params [id :- Long]
+                            :return Long
+                            :summary "Delete a minion."
+                            (ok (db/delete-minion! {:id id}))))))
