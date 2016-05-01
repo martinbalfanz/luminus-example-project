@@ -9,7 +9,7 @@ step into a full featured web app.
 ## Steps
 
 * [x] Setup
-* [ ] Models
+* [x] Models
 * [ ] DB Access
 * [ ] Public API
 * [ ] Views / SPA
