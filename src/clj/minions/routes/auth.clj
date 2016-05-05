@@ -5,7 +5,6 @@
             [minions.db.core :as db]
             [minions.auth :as auth]))
 
-
 (def auth-routes
   (context "/api" []
            (context "/v1/users" []

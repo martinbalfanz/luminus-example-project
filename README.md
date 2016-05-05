@@ -12,8 +12,9 @@ step into a full featured web app.
 * [x] Models
 * [x] DB Access
 * [x] Public API
+* [x] restrict minion creation to logged in users
+* [ ] make API really public -- CORS
 * [ ] Views / SPA
-* [ ] restrict minion creation to logged in users
 
 
 ## Prerequisites

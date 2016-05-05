@@ -3,7 +3,8 @@
             [compojure.api.sweet :refer :all]
             [schema.core :as s]
             [minions.db.core :as db]
-            [minions.routes.auth :refer [auth-routes]]))
+            [minions.routes.auth :refer [auth-routes]]
+            [minions.middleware :as mw]))
 
 (s/defschema Minion {:id Long
                      :name String
@@ -38,6 +39,7 @@
                     (POST "/" []
                           :query-params [name :- String]
                           :return Long
+                          :middleware [mw/wrap-restricted]
                           :summary "Create a minion."
                           (ok (db/create-minion! {:name name})))
 
