@@ -2,9 +2,10 @@
   (:require [minions.db.core :as db]
             [buddy.hashers :as hs]
             [buddy.sign.jws :as jws]
-            [buddy.sign.util :as util]))
+            [buddy.sign.util :as util]
+            [minions.config :refer [env]]))
 
-(def ^:dynamic *secret* "mysecret")
+(def ^:dynamic *secret* (:secret env))
 
 (defn create-user!
   "Create a new user."
