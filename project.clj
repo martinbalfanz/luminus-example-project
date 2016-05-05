@@ -27,6 +27,7 @@
                  [cprop "0.1.7"]
                  [org.clojure/tools.cli "0.3.3"]
                  [luminus-nrepl "0.1.4"]
+                 [buddy "0.13.0"]
                  [luminus-migrations "0.1.2"]
                  [conman "0.5.1"]
                  [org.xerial/sqlite-jdbc "3.8.11.2"]

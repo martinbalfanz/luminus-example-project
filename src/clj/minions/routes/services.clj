@@ -2,7 +2,8 @@
   (:require [ring.util.http-response :refer :all]
             [compojure.api.sweet :refer :all]
             [schema.core :as s]
-            [minions.db.core :as db]))
+            [minions.db.core :as db]
+            [minions.routes.auth :refer [auth-routes]]))
 
 (s/defschema Minion {:id Long
                      :name String
@@ -16,8 +17,9 @@
                            :description "Organize that minions!"
                            :contact {:name "Martin Balfanz"}}
                     :tags [{:name "minions" :description "Minions API"}]}}}
+  auth-routes
   (context "/api" []
-           (context "/minions" []
+           (context "/v1/minions" []
                     :tags ["minions"]
 
                     (GET "/" []
